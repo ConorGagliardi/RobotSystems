@@ -200,6 +200,8 @@ class Picarx(object):
         sin_scale = math.sin(steering_angle)
         left_speed = speed * (1-sin_scale)
         right_speed = speed * (1+sin_scale)
+        left_speed = math.degrees(left_speed)
+        right_speed = math.degrees(right_speed)
         return left_speed, right_speed
 
     def backward(self, speed):
