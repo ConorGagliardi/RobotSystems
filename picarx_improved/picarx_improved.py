@@ -197,17 +197,37 @@ class Picarx(object):
 
 
     def ackerman_func(self, speed, steer_angle):
-        angle = math.radians(steer_angle)
-        angle = constrain(angle, math.radians(self.DIR_MIN), math.radians(self.DIR_MAX))
-        left_speed = speed * (1-angle)
-        right_speed = speed * (1+angle)
-        return left_speed, right_speed
+        wheel_base = 0.15
+        track_width = 0.15
+        steer_angle_rad = math.radians(steer_angle)
+
+        if steer_angle_rad == 0:
+            return speed, -speed
+
+        turn_radius = wheel_base / math.tan(abs(steer_angle_rad))
+
+        r_center = turn_radius
+        r_left = r_center + (track_width / 2)
+        r_right = r_center - (track_width / 2)
+
+        #Normalize speed so it doesnt go crazy...
+        max_radius = max(abs(r_left), abs(r_right))
+        v_left = speed * (r_left / max_radius)
+        v_right = speed * (r_right / max_radius)
+
+        if steer_angle_rad < 0: (#left turn)
+            v_left, v_right = v_right, v_left
+
+        return v_left, -v_right
+
+
+
 
     def backward(self, speed):
 
         left, right = self.ackerman_func(-speed, self.dir_current_angle)
 
-        logging.debug(f"moving backward, speeds: left={left} right={right}.")
+        logging.debug(f"moving backward, speeds: left={left} right={-right}.")
 
         self.set_motor_speed(1, left)
         self.set_motor_speed(2, right)
@@ -236,7 +256,7 @@ class Picarx(object):
         
         left, right = self.ackerman_func(speed, self.dir_current_angle)
 
-        logging.debug(f"moving forward, speeds: left={left} right={right}.")
+        logging.debug(f"moving forward, speeds: left={left} right={-right}.")
 
         self.set_motor_speed(1, left)
         self.set_motor_speed(2, right)

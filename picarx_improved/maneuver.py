@@ -36,8 +36,9 @@ def parallel_park(car, speed=50, duration=2, direction=0):
         left = left * -1
         right = right * -1
 
-    forward(car, speed, duration, angle=left)
-    backward(car, speed, duration, angle=right)
+    forward(car, speed, duration=2)
+    backward(car, speed, duration=1, angle=left)
+    backward(car, speed, duration=1, angle=right)
     car.stop()
 
 def three_pt(car, speed=50, duration=2, direction=0):
