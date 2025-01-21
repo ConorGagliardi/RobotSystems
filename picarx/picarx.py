@@ -57,7 +57,7 @@ class Picarx(object):
         if on_the_robot:
             self.config_flie = fileDB(config, 777, os.getlogin())
         else:
-            self.config_flie = fileDB(config, 777)
+            self.config_flie = fileDB(config, 777, None)
 
         # --------- servos init ---------
         self.cam_pan = Servo(servo_pins[0])

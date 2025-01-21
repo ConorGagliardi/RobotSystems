@@ -11,6 +11,7 @@ except ImportError:
     from sim_robot_hat import Grayscale_Module, Ultrasonic, utils
     on_the_robot = False
 
+import logging
 import atexit
 import math
 import time
@@ -197,11 +198,9 @@ class Picarx(object):
 
     def ackerman_func(self, speed, steer_angle):
         angle = math.radians(steer_angle)
-        sin_scale = math.sin(steering_angle)
-        left_speed = speed * (1-sin_scale)
-        right_speed = speed * (1+sin_scale)
-        left_speed = math.degrees(left_speed)
-        right_speed = math.degrees(right_speed)
+        angle = constrain(angle, math.radians(self.DIR_MIN), math.radians(self.DIR_MAX))
+        left_speed = speed * (1-angle)
+        right_speed = speed * (1+angle)
         return left_speed, right_speed
 
     def backward(self, speed):
