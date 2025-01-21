@@ -1,8 +1,17 @@
-from robot_hat import Pin, ADC, PWM, Servo, fileDB
-from robot_hat import Grayscale_Module, Ultrasonic, utils
+try:
+    from robot_hat import Pin, ADC, PWM, Servo, fileDB
+    from robot_hat import Grayscale_Module, Ultrasonic, utils
+    on_the_robot = True
+except ImportError:
+    import sys
+    import os
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    
+    from sim_robot_hat import Pin, ADC, PWM, Servo, fileDB
+    from sim_robot_hat import Grayscale_Module, Ultrasonic, utils
+    on_the_robot = False
 import time
 import os
-
 
 def constrain(x, min_val, max_val):
     '''
@@ -45,7 +54,10 @@ class Picarx(object):
         time.sleep(0.2)
 
         # --------- config_flie ---------
-        self.config_flie = fileDB(config, 777, os.getlogin())
+        if on_the_robot:
+            self.config_flie = fileDB(config, 777, os.getlogin())
+        else:
+            self.config_flie = fileDB(config, 777)
 
         # --------- servos init ---------
         self.cam_pan = Servo(servo_pins[0])
