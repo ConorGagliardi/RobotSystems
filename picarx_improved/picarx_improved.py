@@ -23,7 +23,7 @@ def constrain(x, min_val, max_val):
     '''
     return max(min_val, min(max_val, x))
 
-class Picarx(object):
+class Picarx():
     CONFIG = '/opt/picar-x/picar-x.conf'
 
     DEFAULT_LINE_REF = [1000, 1000, 1000]
@@ -215,7 +215,7 @@ class Picarx(object):
         v_left = speed * (r_left / max_radius)
         v_right = speed * (r_right / max_radius)
 
-        if steer_angle_rad < 0: (#left turn)
+        if steer_angle_rad < 0: #left turn)
             v_left, v_right = v_right, v_left
 
         return v_left, -v_right

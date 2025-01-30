@@ -8,28 +8,21 @@ logging.basicConfig(format=logging_format, level=logging.INFO,
 
 logging.getLogger().setLevel(logging.DEBUG)
 
-def forward(car, speed=50, duration=1, angle=0):
+def forward(car, speed=80, duration=1, angle=0):
     car.set_dir_servo_angle(angle)
     car.forward(speed)
     logging.info(f"move forward at {speed} speed, {angle} angle, for {duration} seconds")
     time.sleep(duration)
     car.stop()
 
-def backward(car, speed=50, duration=1, angle=0):
+def backward(car, speed=80, duration=1, angle=0):
     car.set_dir_servo_angle(angle)
     car.backward(speed)
     logging.info(f"move backward at {speed} speed, {angle} angle, for {duration} seconds")
     time.sleep(duration)
     car.stop()
 
-def forward(car, speed=50, duration=1, angle=0):
-    car.set_dir_servo_angle(angle)
-    car.forward(speed)
-    logging.info(f"move forward at {speed} speed, {angle} angle, for {duration} seconds")
-    time.sleep(duration)
-    car.stop()
-
-def parallel_park(car, speed=50, duration=2, direction=0):
+def parallel_park(car, speed=80, duration=2, direction=0):
     left = 30
     right = -30
     if(direction == 1):
@@ -41,7 +34,7 @@ def parallel_park(car, speed=50, duration=2, direction=0):
     backward(car, speed, duration=1, angle=right)
     car.stop()
 
-def three_pt(car, speed=50, duration=2, direction=0):
+def three_pt(car, speed=80, duration=2, direction=0):
     left = 30
     right = -30
     if(direction == 1):
