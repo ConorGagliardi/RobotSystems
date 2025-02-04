@@ -2,6 +2,7 @@ try:
     from robot_hat import Pin, ADC, PWM, Servo, fileDB
     from robot_hat import Grayscale_Module, Ultrasonic, utils
     on_the_robot = True
+    from sensor import Sensor
 except ImportError:
     import sys
     import os
@@ -13,21 +14,31 @@ except ImportError:
 import time
 import os
 
-class Sensor:
+class Interpreter:
     
-    def __init__(self, adc_structs):
+    def __init__(self, sensitivity = 200, polarity = True):
                 
-        self.sensors = [ADC(adc_structs[i]) for i in range(3)]
+        self.sensitivity = sensitivity
+        self.polarity = polarity
         
-    def read(self):
-        return [sensor.read() for sensor in self.sensors]
+    def think(self, vals):
+        left_diff = vals[0] - vals[1]
+        right_side = vals[2] - vals[1]
+
+        if self.polarity:
+            position = (right_side - left_diff) / (vals[0] + vals[1] + vals[2])
+        else:
+            position = (left_diff - right_side) / (vals[0] + vals[1] + vals[2])
+
+        return position * 2
     
 if __name__ == "__main__":
-
     adc_sensors = ["A0", "A1", "A2"]
-
     sensor = Sensor(adc_sensors)
+    interpreter = Interpreter()
+
     while True:
         vals = sensor.read()
-        print(f"ADC Values: {vals}")
+        turn = interpreter.think(vals)
+        print(f"vals: {vals}, turn: {turn}")
         time.sleep(0.01)

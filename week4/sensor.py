@@ -24,7 +24,7 @@ class Sensor:
     
 if __name__ == "__main__":
 
-    adc_sensors = ["A0", "A1", "A2"]
+    adc_sensors = ["A0", "A1", "A2"]  
 
     sensor = Sensor(adc_sensors)
     while True:
