@@ -25,14 +25,14 @@ def getAreaMaxContour(contours):
     contour_area_max = 0
     area_max_contour = None
 
-    for c in contours:  # 历遍所有轮廓
-        contour_area_temp = math.fabs(cv2.contourArea(c))  # 计算轮廓面积
+    for c in contours: 
+        contour_area_temp = math.fabs(cv2.contourArea(c))
         if contour_area_temp > contour_area_max:
             contour_area_max = contour_area_temp
-            if contour_area_temp > 300:  # 只有在面积大于300时，最大面积的轮廓才是有效的，以过滤干扰
+            if contour_area_temp > 300: 
                 area_max_contour = c
 
-    return area_max_contour, contour_area_max  # 返回最大的轮廓
+    return area_max_contour, contour_area_max
 
 class Vision:
     def __init__(self, size=(640,480), square_length=1):
